@@ -8,4 +8,6 @@ setup(name='sentiment',
       license='CC-BY-4.0',
       packages=['sentiment'],
       include_package_data=True,
-      package_dir={'sentiment': 'sentiment'})
+      package_dir={'sentiment': 'sentiment'},
+      package_data={'sentiment': ['data/*.txt', 'data/NRC_translations/*.txt', 'data/*.csv']}
+)

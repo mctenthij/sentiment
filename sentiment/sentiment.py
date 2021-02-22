@@ -4,6 +4,7 @@ import pandas as pd
 
 from afinn import Afinn
 import nltk
+from textblob import TextBlob
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
@@ -303,6 +304,10 @@ class Sentiment(object):
             else:
                 sentiment_results["Happiness"] = pd.np.nan
 
+            textblob_results = self.score_polarity_subjectivity(text)
+            sentiment_results["polarity"] = textblob_results["polarity"]
+            sentiment_results["subjectivity"] = textblob_results["subjectivity"]
+
             if self.poms is not None:
                 poms_results = self.score_poms(words)
                 if poms_results:
@@ -368,6 +373,25 @@ class Sentiment(object):
             for sent in self.vader_scorer:
                 results[sent] = self.vader_scorer[sent].polarity_scores(text)[dim]
             return results
+
+
+    def score_polarity_subjectivity(self, text):
+        """Scores a text for subjectivity and polarity using TextBlob [1].
+
+        Parameters
+        ----------
+        text : str
+            text to be processed
+
+        Returns
+        -------
+        scores : dictionary of subjectivity and polarity scores of text.
+
+        [1] Steven Loria, "TextBlob: Simplified Text Processing". Retrieved 19 Feb 2021 from https://textblob.readthedocs.io/en/dev/index.html
+        """
+        b = TextBlob(text)
+        return {"subjectivity": b.subjectivity, "polarity": b.polarity}
+
 
     def score_afinn(self, words, return_all=False):
         """Scores a list of words using Afinn [1] Valence.
