@@ -9,5 +9,12 @@ setup(name='sentiment',
       packages=['sentiment'],
       include_package_data=True,
       package_dir={'sentiment': 'sentiment'},
-      package_data={'sentiment': ['data/*.txt', 'data/NRC_translations/*.txt', 'data/*.csv']}
+      package_data={'sentiment': ['data/*.txt', 'data/NRC_translations/*.txt', 'data/*.csv']},
+      install_requires=[
+            'pandas',
+            'afinn',
+            'nltk',
+            'textblob',
+            'vaderSentiment'
+      ]
 )
